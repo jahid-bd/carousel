@@ -1,3 +1,14 @@
+// variables
+$primary_1: #f96f00;
+.fade{
+    animation-name: fade;
+    animation-duration: 2s;
+}
+  
+@keyframes fade {
+    from {opacity: .4} 
+    to {opacity: 1}
+}
 
 *{
     margin: 0;
@@ -58,8 +69,8 @@ h1,h2,h3,h4,h5,h6,a,p,ul,li{
           }
       }
       .active-dot{
-        border-color: #f96f00;
-        span{background: #f96f00;}
+        border-color: $primary_1;
+        span{background: $primary_1}
       }
   }
 
@@ -74,7 +85,7 @@ h1,h2,h3,h4,h5,h6,a,p,ul,li{
         cursor: pointer;
 
     &:hover{
-        color: #f96f00;
+        color: $primary_1;
     }
         
       &.prev{
@@ -88,7 +99,8 @@ h1,h2,h3,h4,h5,h6,a,p,ul,li{
   }
 
   .slider-items{
-      display: none;
+         display: none;
+        @extend .fade;
   }
 
     .slider-item{
