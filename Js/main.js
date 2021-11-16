@@ -1,53 +1,51 @@
 // Select All Slider items
-let sliderItems = document.querySelectorAll('.slider-items')
+const sliderParent = document.querySelector('.slider-items')
+const track = document.querySelectorAll('.slider-item')
+const sliderItems = Array.from(track)
+const slideWidth = sliderItems[0].getBoundingClientRect().width
+
+// sliderItems[0].style.left = slideWidth * 0 + "px"
+// sliderItems[1].style.left = slideWidth * 1 + "px"
+// sliderItems[2].style.left = slideWidth * 2 + "px"
 
 // Select all Button
-let dotBtn = document.querySelectorAll('.dot')
-let prevBtn = document.querySelector('.prev')
-let nextBtn = document.querySelector('.next')
+const dotBtn = document.querySelectorAll('.dot')
+const prevBtn = document.querySelector('.prev')
+const nextBtn = document.querySelector('.next')
 
-var itemIndex = 0
-function showSliders(n){
-    for(let i = 0; i < sliderItems.length; i++){
-        sliderItems[i].style.display = "none"
-    }
 
-    if(n > sliderItems.length - 1){itemIndex = 0}
-    if(n < 0){itemIndex = sliderItems.length - 1}
-
-    for(let j = 0; j < dotBtn.length; j++){
-        dotBtn[j].className = dotBtn[j].className.replace("active-dot", "") 
-    }
-    sliderItems[itemIndex].style.display = "block"
-    dotBtn[itemIndex].className += " active-dot"
-}
-
-// Auto Slider
-let timer = setInterval(function(){
-    return showSliders(itemIndex += 1)
-}, 3000)
-
-// onclick stop auto sliding
-document.querySelector('.slider-section').addEventListener('click', function(e){
-    clearInterval(timer)
+sliderItems.forEach((slide, index) => {
+    slide.style.left = slideWidth * index + "px"
 })
 
-// Active the first item slider
-showSliders(itemIndex)
+var sliderIndex = 0
 
-// Dot Button Onclick Event
-for(let j = 0; j < dotBtn.length; j++){
-    dotBtn[j].addEventListener('click', function(e){
-        showSliders(itemIndex = j)
-    })
-}
-
-// Prev Button Onclick Event
-prevBtn.addEventListener('click', function(e){
-    showSliders(itemIndex -= 1)
-})
-
-// Prev Button Onclick Event
 nextBtn.addEventListener('click', function(e){
-    showSliders(itemIndex += 1)
+    showSliders(sliderIndex += 1)
+})
+
+prevBtn.addEventListener('click', function(e){
+    showSliders(sliderIndex -= 1)
+})
+
+function showSliders(n){
+   if(n > sliderItems.length - 3){sliderIndex = 0}
+   if(n < 0){sliderIndex = sliderItems.length - 1}
+
+   dotBtn.forEach((dots, index) => {
+        dots.className = dots.className.replace("active-dot", "") 
+    })
+    dotBtn[sliderIndex].className += " active-dot"
+
+   sliderParent.style.transform = `translateX(-${sliderItems[sliderIndex].style.left})`
+
+//    sliderItems[sliderIndex].style.transform = `translateX(+${sliderItems[sliderItems.length - 1].style.left})`
+
+}
+
+// // Dot Button Onclick Event
+dotBtn.forEach((dots, index) => {
+    dots.addEventListener('click', function(e){
+        showSliders(sliderIndex = index)
+    })
 })
